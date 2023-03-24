@@ -1,24 +1,24 @@
 {
-    // 캡슐화
+    // 추상화
     type CoffeeCup = {
         shots: number;
         hasMilk: boolean;
     }
 
     interface CoffeeMaker {
-        makeCoffee(shots:number): CoffeeCup; // 숫자타입의 인자를 받아 makeCoffee함수를 모두 실행해야한다. 규약
+        makeCoffee(shots: number): CoffeeCup; // 숫자타입의 인자를 받아 makeCoffee함수를 모두 실행해야한다. 규약
     }
 
     interface CommercialCoffeeMaker {
-        makeCoffee(shots:number): CoffeeCup; // 숫자타입의 인자를 받아 makeCoffee함수를 모두 실행해야한다. 규약
-        fillCoffeeBeans(beans:number): void;
-        clean():void;
+        makeCoffee(shots: number): CoffeeCup; // 숫자타입의 인자를 받아 makeCoffee함수를 모두 실행해야한다. 규약
+        fillCoffeeBeans(beans: number): void;
+        clean(): void;
     }
 
     // public -> default
     // private -> 어떤 누구도 접근 불가
     // protected -> 외부에서 접근불가하지만 상속받은 자식클래스에서는 접근 가능
-    class CoffeeMachine implements CoffeeMaker, CommercialCoffeeMaker{ // 커피메이커, 상업용 커피메이커 인터페이스 둘다 구현하는 클래스
+    class CoffeeMachine implements CoffeeMaker, CommercialCoffeeMaker { // 커피메이커, 상업용 커피메이커 인터페이스 둘다 구현하는 클래스
         // BEANS_GRAM_PER_SHOT: number = 7; // 만들 때 마다 인스턴스에 중복 존재 메모리 낭비
         private static BEANS_GRAM_PER_SHOT: number = 7; // static -> class level, private 외부에서 접근 불가
         private coffeeBeans: number = 0; // instance (object) level, this 쓰지 않음 클래스 이름 붙이기
@@ -39,10 +39,10 @@
             this.coffeeBeans += beans;
         }
 
-        clean(){
+        clean() {
             console.log('cleaning..')
         }
-        private grindBeans(shots: number){
+        private grindBeans(shots: number) {
             console.log(`grinding beans for ${shots}`)
             if (this.coffeeBeans < shots * CoffeeMachine.BEANS_GRAM_PER_SHOT) {
                 throw new Error('not enough coffee beans');
@@ -50,13 +50,13 @@
             this.coffeeBeans -= shots * CoffeeMachine.BEANS_GRAM_PER_SHOT;
         }
 
-        private preheat(): void{
+        private preheat(): void {
             console.log('heating up')
         }
 
-        private extract(shots: number): CoffeeCup{
+        private extract(shots: number): CoffeeCup {
             console.log(`pulling ${shots} shots...`);
-            return{
+            return {
                 shots,
                 hasMilk: false,
             }
@@ -92,16 +92,16 @@
     // maker3.clean();
 
     class Amateur {
-        constructor(private machine: CoffeeMaker) {}
-        makeCoffee(){
+        constructor(private machine: CoffeeMaker) { }
+        makeCoffee() {
             const Coffee = this.machine.makeCoffee(2);
             console.log(Coffee);
         }
     }
 
     class Pro {
-        constructor(private machine: CommercialCoffeeMaker) {}
-        makeCoffee(){
+        constructor(private machine: CommercialCoffeeMaker) { }
+        makeCoffee() {
             const Coffee = this.machine.makeCoffee(2);
             console.log(Coffee);
             this.machine.fillCoffeeBeans(50);

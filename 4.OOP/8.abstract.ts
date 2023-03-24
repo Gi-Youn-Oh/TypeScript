@@ -1,6 +1,6 @@
 {
     // abstract 실수로 super 상속받지 않아서 빼먹는 경우 방지
-    // 자식 클래스마다  다르게 사용할 수 있는 함수가 있다면 abstract
+    // 상속 시에 자식 클래스마다  다르게 사용할 수 있는 함수가 있다면 abstract
 
     type CoffeeCup = {
         shots: number;
@@ -9,9 +9,9 @@
     }
 
     interface CoffeeMaker {
-        makeCoffee(shots:number): CoffeeCup; // 숫자타입의 인자를 받아 makeCoffee함수를 모두 실행해야한다. 규약
+        makeCoffee(shots: number): CoffeeCup; // 숫자타입의 인자를 받아 makeCoffee함수를 모두 실행해야한다. 규약
     }
-    abstract class CoffeeMachine implements CoffeeMaker{ // 커피메이커, 상업용 커피메이커 인터페이스 둘다 구현하는 클래스
+    abstract class CoffeeMachine implements CoffeeMaker { // 커피메이커, 상업용 커피메이커 인터페이스 둘다 구현하는 클래스
         // BEANS_GRAM_PER_SHOT: number = 7; // 만들 때 마다 인스턴스에 중복 존재 메모리 낭비
         private static BEANS_GRAM_PER_SHOT: number = 7; // static -> class level, private 외부에서 접근 불가
         private coffeeBeans: number = 0; // instance (object) level, this 쓰지 않음 클래스 이름 붙이기
@@ -26,10 +26,10 @@
             this.coffeeBeans += beans;
         }
 
-        clean(){
+        clean() {
             console.log('cleaning..')
         }
-        private grindBeans(shots: number){
+        private grindBeans(shots: number) {
             console.log(`grinding beans for ${shots}`)
             if (this.coffeeBeans < shots * CoffeeMachine.BEANS_GRAM_PER_SHOT) {
                 throw new Error('not enough coffee beans');
@@ -37,7 +37,7 @@
             this.coffeeBeans -= shots * CoffeeMachine.BEANS_GRAM_PER_SHOT;
         }
 
-        private preheat(): void{
+        private preheat(): void {
             console.log('heating up')
         }
 
@@ -50,15 +50,15 @@
         }
     }
 
-    class CaffeLatteMachine extends CoffeeMachine{
-        constructor (beans:number, public readonly serialNumber: string){ // 자식클래스에서 생성자를 만들면 반드시 super 를 호출해야함, 부모 생성자의 인수로 받아야함
+    class CaffeLatteMachine extends CoffeeMachine {
+        constructor(beans: number, public readonly serialNumber: string) { // 자식클래스에서 생성자를 만들면 반드시 super 를 호출해야함, 부모 생성자의 인수로 받아야함
             super(beans);
         }
-        private steamMilk(): void{
+        private steamMilk(): void {
             console.log('Steaming some milk...')
         }
         // 자식 클래스에서 정의
-        protected  extract(shots: number): CoffeeCup {
+        protected extract(shots: number): CoffeeCup {
             this.steamMilk()
             return {
                 shots,
@@ -76,8 +76,8 @@
         // }
     }
 
-    class SweetCoffeeMaker extends CoffeeMachine{
-        protected  extract(shots: number): CoffeeCup {
+    class SweetCoffeeMaker extends CoffeeMachine {
+        protected extract(shots: number): CoffeeCup {
             return {
                 shots,
                 hasSugar: true,

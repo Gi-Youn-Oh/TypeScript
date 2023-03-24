@@ -3,16 +3,16 @@
     // 유연함, 타입 보장, 재사용성 
 
     // 1. 문제는 숫자만 확인가능 ... 타입별로 다만들어? xxx
-    // function checkNotNullBad (arg: number | null): number { 
-    //     if(arg == null){
-    //         throw new Error('Not valid Number')
-    //     }
-    //     return arg;
-    // }
+    function checkNotNullBad(arg: number | null): number {
+        if (arg == null) {
+            throw new Error('Not valid Number')
+        }
+        return arg;
+    }
 
-    // const result = checkNotNullBad(123);
-    // console.log(result);
-    // checkNotNullBad(null);
+    const result = checkNotNullBad(123);
+    console.log(result);
+    checkNotNullBad(null);
 
     // 2. 그렇다면 any로 ? => type 보장이 안됨... => 안정성 떨어짐
     function checkNotNullAnyBad(arg: any | null): any {
